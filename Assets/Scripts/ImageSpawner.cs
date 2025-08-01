@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class ImageSpawner : MonoBehaviour
@@ -14,15 +13,6 @@ public class ImageSpawner : MonoBehaviour
     [SerializeField]
     private List<Sprite> _sprites;
 
-    [SerializeField]
-    private bool _useSpriteAtlas;
-
-    [SerializeField]
-    private SpriteAtlas _spriteAtlas;
-
-    [SerializeField]
-    private List<string> _atlasSpriteNames;
-
     private void Start()
     {
         for (int i = 0; i < _count; i++)
@@ -34,14 +24,13 @@ public class ImageSpawner : MonoBehaviour
 
             Sprite spriteToUse = null;
 
-            if (_useSpriteAtlas && _spriteAtlas != null && _atlasSpriteNames.Count > 0)
-            {
-                string spriteName = _atlasSpriteNames[i % _atlasSpriteNames.Count];
-                spriteToUse = _spriteAtlas.GetSprite(spriteName);
-            }
-            else if (_sprites.Count > 0)
+            if (_sprites.Count > 0)
             {
                 spriteToUse = _sprites[i % _sprites.Count];
+            }
+            else
+            {
+                return;
             }
 
             img.sprite = spriteToUse;
@@ -49,7 +38,7 @@ public class ImageSpawner : MonoBehaviour
             RectTransform rt = imgGO.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(100, 100);
 
-            int columns = 10;
+            int columns = 20;
             float spacing = 10f;
             int row = i / columns;
             int col = i % columns;
